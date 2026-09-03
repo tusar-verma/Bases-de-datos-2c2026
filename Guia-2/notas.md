@@ -12,6 +12,22 @@ Para evitar anomalias:
 - Dependencias Funcionales
 - Normalización
 
+### Anomalias
+
+- Anomalía de actualización: Si cambiar una instancias tenemos que modificar muchas filas.
+- Anomalía de inserción: Insertar una nueva instancia requiere que previamente exista otra instancia. Ej: Queremos agregar una carrera pero todavía no hay alumnos de esa carrera. No tenemos dónde guardarla.
+- Anomalía de eliminación: Eliminar una instancia borra más información de lo necesario. Por ejemplo: si eliminamos a un alumno de Matemática perdemos la información de que existe la carrera Matemática.
+
+Las formas normales buscan estructurar las relaciones para evitar estos problemas derivados de dependencias no deseadas
+
+| Forma    | Qué elimina                                                                 | Problema típico que evita                                                               |
+| -------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| **1FN**  | Valores no atómicos / grupos repetidos                                      | Dificultad para insertar, modificar o consultar elementos individuales de una colección |
+| **2FN**  | Dependencias parciales de atributos no primos respecto de claves compuestas | Redundancia por información que depende solo de una parte de la clave                   |
+| **3FN**  | Dependencias transitivas de atributos no primos respecto de una clave       | Redundancia de datos que dependen de otro atributo no clave                             |
+| **FNBC** | Dependencias funcionales cuyo determinante no es superclave                 | Elimina anomalías que todavía pueden quedar en 3FN                                      |
+
+
 ## Dependencia funcional
 
 Decimos que X determina funcionalmente a Y (o que Y es determinado funcionalmente por X ) en R, y lo notamos $$X → Y$$ , si para todo conjunto de tuplas r(R) se verifica que si $t1(X) = t2(X)$ entonces necesariamente $t1(Y) = t2(Y)$.
@@ -162,3 +178,11 @@ Se obtiene una descomposición $ρ$ de $R$ por síntesis, a partir de una cobert
 2. Unificar los que provienen de $DF$ con igual lado izquierdo: $(X , A_1, . . . , A_n)$
 3. Si ningún esquema contiene una clave, agregar uno con los atributos de alguna clave
 4. Eliminar esquemas redundantes (contenidos en otro)
+
+## Algoritmo de Tableau
+
+Herramienta utilizada fundamentalmente para verificar pérdida de información.
+
+> Construimos una tabla simbólica que representa qué información conocemos antes y después de descomponer, y aplicamos las dependencias funcionales para ver si podemos recuperar una fila completamente conocida.
+
+[Ejemplo tableau](tableau_ejemplo.pdf)
