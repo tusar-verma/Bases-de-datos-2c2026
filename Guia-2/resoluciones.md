@@ -77,7 +77,7 @@ Para saber que conjunto de dependencias funcionales son equivalentes usamos la s
 
 Para los conjuntos a y b, las DF subrayadas estan en ambos. Faltan ver si los que no estan subrayadas se pueden derivar en el otro conjunto.
 
-![](1-2ab.png)
+![](img/1-2ab.png)
 
 Para demostrar que 2 conjuntos no son equivalentes basta con dar una dependencia funcional que está en uno de los conjuntos y no el otro. (Una de las incluciones no se cumple).
 
@@ -93,13 +93,13 @@ Por lo que en b no tendremos varias de las dependencias funcionales correspondie
 
 En el conjunto c $C^+ = \{ A, C \}$. Con lo cual alcanza para afirmar que c $\not\equiv$ a, pero no a b.
 
-![](1-2bc.png)
+![](img/1-2bc.png)
 
 en el conjunto c la clausula de D es: $D^+ = \{ D, G \}$. Como $D → E$ en b, entonces encontramos una DF que no está en c. No son equivalentes b y c.
 
 Analicemos ahora el conjunto d.
 
-![](1-2cd.png)
+![](img/1-2cd.png)
 
 Nuevamente podemos usar el argumento de la DF $D → E$ que está en d pero no en c para afirmar que no son equivalentes.
 
@@ -107,7 +107,7 @@ La clausula C de d es $C^+ = \{ A, C \}$. Nos sirve para afirmar que no es equiv
 
 Falta ver si el conjunto b es equivalente al d.
 
-![](1-2bd.png)
+![](img/1-2bd.png)
 
 Veamos la clausura positiva de AB en b: $(AB)^+= {A, B, C, D, E, G}$.
 
@@ -338,6 +338,107 @@ R2(H,A,D) DF_2=\{ H → AD, D → H \}
 R3(I,C) DF_3=\{ I → C \}
 $$
 
+# 2.2
+
+$R=(U, A, T, K) DF= \{U → TA\}$
+
+Como U no es superclave de R entonces R no está en FNBC. En particular, $U → TA$ es una dependencia no trivial y $U$ no es superclave. Que es la condición necesaria para que R esté en FNBC.
 
 
+# 2.3
 
+Los atributos son: $B, I, E, A, D, C$ y las DF $F \{A → D, I → B, IA → C, B → E \}$
+
+## a
+
+$\{IA\}^+ = A, I, C, B, E, D$
+
+IA es una superclave al determinar funcionalmente a todos los atributos. Más aún es una clave al ser minimal. (Si saco I pierdo la determinación de I, B, E. Si saco A pierdo la de A, D)
+
+## b
+
+No es SPDF. Al hacer las proyecciones de las DF queda:
+
+$$
+(I, B): I → B \\
+(I, A, C): IA → C \\
+(A, D): A → D \\
+(I, A, E): I → E
+$$
+
+Al hacer la union de todas las DF proyectadas perdimos $B → E$
+
+Ahora para verificar si la descomposición es SPI usamos el algoritmo de tableau:
+
+$\{A → D, I → B, IA → C, B → E \}$
+
+|       | B   | I   | E   | A   | D   | C   |
+|-------|-----|-----|-----|-----|-----|-----|
+| I,B   | a1  | a2  | b13 | b14 | b15 | b16 |
+| I,A,C | b21 | a2  | b23 | a4  | b25 | a6  |
+| A,D   | b31 | b32 | b33 | a4  | a5  | b36 |
+| I,A,E | b41 | a2  | a3  | a4  | b45 | b46 |
+
+$A → D$
+
+|       | B   | I   | E   | A   | D   | C   |
+|-------|-----|-----|-----|-----|-----|-----|
+| I,B   | a1  | a2  | b13 | b14 | b15 | b16 |
+| I,A,C | b21 | a2  | b23 | a4  | a5  | a6  |
+| A,D   | b31 | b32 | b33 | a4  | a5  | b36 |
+| I,A,E | b41 | a2  | a3  | a4  | a5  | b46 |
+
+$I → B$
+
+|       | B   | I   | E   | A   | D   | C   |
+|-------|-----|-----|-----|-----|-----|-----|
+| I,B   | a1  | a2  | b13 | b14 | b15 | b16 |
+| I,A,C | a1  | a2  | b23 | a4  | a5  | a6  |
+| A,D   | b31 | b32 | b33 | a4  | a5  | b36 |
+| I,A,E | a1  | a2  | a3  | a4  | a5  | b46 |
+
+$IA → C$
+
+|       | B   | I   | E   | A   | D   | C   |
+|-------|-----|-----|-----|-----|-----|-----|
+| I,B   | a1  | a2  | b13 | b14 | b15 | b16 |
+| I,A,C | a1  | a2  | b23 | a4  | a5  | a6  |
+| A,D   | b31 | b32 | b33 | a4  | a5  | b36 |
+| I,A,E | a1  | a2  | a3  | a4  | a5  | a6  |
+
+$B → E$
+
+|       | B   | I   | E   | A   | D   | C   |
+|-------|-----|-----|-----|-----|-----|-----|
+| I,B   | a1  | a2  | a3  | b14 | b15 | b16 |
+| I,A,C | a1  | a2  | a3  | a4  | a5  | a6  |
+| A,D   | b31 | b32 | b33 | a4  | a5  | b36 |
+| I,A,E | a1  | a2  | a3  | a4  | a5  | a6  |
+
+La segunda fila son todos simbolos distinguidos $a_i$ por lo que concluimos que la descomposición es SPI.
+
+## c
+
+La condición de 3FN es que para toda DF $X → Y$, o $X$ es superclave o $Y$ forma parte de alguna clave.
+
+Mirando las proyecciones de las DF, 
+
+$$
+(I, B): I → B  \text{, se encuentra en 3FN}\\
+(I, A, C): IA → C \text{, se encuentra en 3FN}\\
+(A, D): A → D \text{, se encuentra en 3FN}\\
+(I, A, E): I → E \text{, No se encuentra en 3FN}
+$$
+
+Basta con descomponer $(I, A, E)$ en $(I, E)$ y $(I, A)$. Notar que $(I, A)$ está contenido en $(I, A, C)$, por lo que podemos omitirlo. Queda:
+
+$$
+(I, B): I → B  \text{, se encuentra en 3FN}\\
+(I, A, C): IA → C \text{, se encuentra en 3FN}\\
+(A, D): A → D \text{, se encuentra en 3FN}\\
+(I, E): I → E \text{, se encuentra en 3FN}
+$$
+
+Otra opción es tomar una relación con todos los atributos y las dependencias funcionales, y ejecutar el algoritmo que genera una descomposición SPI y SPDF y que mantiene 3FN.
+
+Notar que la solución dada está en 3FN pero no es SPDF (se perdió B → E).
