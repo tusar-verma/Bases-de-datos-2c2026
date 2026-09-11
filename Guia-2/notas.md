@@ -2,7 +2,7 @@
 
 - Evitar la información redundante en tuplas
 - Evitar los valores nulos en las tuplas
-- No permitir la generación de tuplas ilegítimas (Si ciertas tuplas no deber´ıan existir, no se deben permitir)
+- No permitir la generación de tuplas ilegítimas (Si ciertas tuplas no deberían existir, no se deben permitir)
 - Pérdida de información (aparición de tuplas espureas)
 - Pérdida de dependencias funcionales, es decir, ciertas restricciones de integridad que dan lugar a interdependencias entre los datos
 - Aparición en la BD de estados no válidos, es decir, anomalías de inserción, borrado y modificación
@@ -96,7 +96,7 @@ Descomponer un esquema R es reemplazarlo por varios subesquemas $R_1, . . . , R_
 
 Una buena descomposición es sin perdida de información ni perdida de dependencias funcionales. 
 
-Sea $R = (A_1, . . . , A_n)$, $F$ un conjunto de $DF$ y $ρ$ una descomposición de $R$, $$ρ = \{R_1, . . . , R_k\}$ tal que $\cup^k_{i=1} R_i = R$. Decimos que ρ es una descomposición sin pérdida de información (SPI) si para cada instancia $r$ de $R$ que satisface $F$ se verifica: $r = \cup \bowtie_{i=1}^k π_{R_i}(r)$
+Sea $R = (A_1, . . . , A_n)$, $F$ un conjunto de $DF$ y $ρ$ una descomposición de $R$, $ρ = \{R_1, . . . , R_k\}$ tal que $\cup^k_{i=1} R_i = R$. Decimos que ρ es una descomposición sin pérdida de información (SPI) si para cada instancia $r$ de $R$ que satisface $F$ se verifica: $r = \cup \bowtie_{i=1}^k π_{R_i}(r)$
 Donde $\pi$ proyecta la tupla $r$ de $R$ en las columnas de $R_i$.
 
 
@@ -166,9 +166,9 @@ Descomposición en 2 relaciones, una con los atributos de la DF $X → A$ que no
 
 ## Algoritmo descomposición FNBC SPI
 
-Parte de R aplicando la propiedad de descomposici´on binaria: el
+Parte de R aplicando la propiedad de descomposición binaria: el
 resultado siempre es SPI, pero a veces no es SPDF.
-1. Si hay $X → Y$ que viola FNBC en $R_i ∈ ρ$, reemplazar $R_i$ por $R′_i = XY$ y $R′′i = R_i − Y$
+1. Si hay $X → Y$ que viola FNBC en $R_i ∈ ρ$, reemplazar $R_i$ por $R'_i = XY$ y $R''_i = R_i − Y$
 2. Repetir sobre cada $R_i$ que no esté en FNBC, hasta que todos lo estén
 
 ## Algoritmo descomposición 3FN SPI y SPDF
