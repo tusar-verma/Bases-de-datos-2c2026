@@ -442,3 +442,125 @@ $$
 Otra opción es tomar una relación con todos los atributos y las dependencias funcionales, y ejecutar el algoritmo que genera una descomposición SPI y SPDF y que mantiene 3FN.
 
 Notar que la solución dada está en 3FN pero no es SPDF (se perdió B → E).
+
+# 2.5
+
+## a
+
+La unica clave es AGCE. Ninguna de las 3 DF cumple la condición necesaria para 3FN: $X → A$ sobre $R$, $X$ es superclave de $R$ o $A$ es primo (depende totalmente de alguna clave). 
+
+Anomalia de actualización e inserción
+
+| A  | B  | C  | D  | E  | G  |
+|----|----|----|----|----|----|
+| a1 | b1 | c1 | d1 | e1 | g1 |
+| a2 | b1 | c2 | d1 | e2 | g2 |
+
+Para actualizar un valor correspondiente a instancias B=b1, debemos actualizar 2 instancias de la relación.
+
+Y no podemos insertar un nuevo valor (b2, d2) sin definir antes el valor para el resto de atributos. 
+
+Al B no ser superclave (o D no ser primo) en la DF B → D, entonces permitimos que los demás atributos tomen otros valores para un mismo valor de (B, D).
+
+## b
+
+Resultado del algoritmo de descomposicion en 3FN SPI y SPDF: R1(AGCE), R2(A, B), R3(B, D)
+
+## c
+
+Si está en FNBC.
+
+# 2.7
+
+# 2.9
+
+# 2.11
+
+# 2.12
+
+# 2.13
+
+## a
+
+Al menos se encuentra en 1FN.
+
+La clave es {idProducto, idVendedor}. Por la DF $Vendedor → Comision$, Comisión, un atributo no primo, depende parcialmente de la clave. Concluimos que no se encuentra en 2FN. Y por lo tanto tampoco en 3FN ni FNBC.
+
+## b
+
+Aplicamos el algoritmo de normalización SPI y SPDF (no lo piden, se podría dar cualquiera)
+
+Parte de una cobertura minimal de las DF: los lados derechos son atributos únicos, todo lado izquierdo es reducido y no hay DF redundantes.
+
+El conjunto de DF ya se encuentra reducido.
+
+1. Crear subesquemas (X, A) por cada DF X → A
+
+R1(Fecha, Descuento), R2(idVendedor, Comisión)
+
+1. Unificar aquellas que tengan mismo lado izquierdo. Ninguna
+2. Si no hay un esquema con alguna clave (En este caso asumo que la clave es la PK dada. Si analizamos las DF la clave deberia ser (idProducto, idVendedor, fecha)), agregarla:
+
+R3(idProducto, idVendedor)
+
+1. Eliminar relaciones redundantes. No hay
+
+
+# 2.14
+
+## a
+
+Falso
+
+## b
+
+Verdadero
+
+## c
+
+Falso
+
+## d
+
+Verdadero
+
+## e
+
+Falso
+
+# 2.15
+
+## a
+
+Falso
+
+## b
+
+Verdadero
+
+## c
+
+Falso
+
+## d
+
+Falso
+
+# 2.16
+
+## a
+
+Falso, la condición de FNBC es que la izquierda de la DF sea superclave
+
+## b
+
+Falso. La condición de 2FN es que todo atributo que no forma una clave (atributo no primo) debe depender totalmente de una clave. B solo depende de A y no de C ni E.
+Al no estar en 2FN, tampoco está en 3FN. 
+
+## c
+
+Falso. 
+
+## d
+
+Verdadero.

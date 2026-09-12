@@ -168,7 +168,8 @@ Descomposición en 2 relaciones, una con los atributos de la DF $X → A$ que no
 
 Parte de R aplicando la propiedad de descomposición binaria: el
 resultado siempre es SPI, pero a veces no es SPDF.
-1. Si hay $X → Y$ que viola FNBC en $R_i ∈ ρ$, reemplazar $R_i$ por $R'_i = XY$ y $R''_i = R_i − Y$
+1. Si hay $X → Y$ que viola FNBC en $R_i ∈ ρ$, reemplazar $R_i$ por $R'_i = XY$ y $R''_i = R_i − Y$ 
+($R'_i = XY$ y $R''_i = R_i − (Y - X)$)
 2. Repetir sobre cada $R_i$ que no esté en FNBC, hasta que todos lo estén
 
 ## Algoritmo descomposición 3FN SPI y SPDF
