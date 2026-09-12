@@ -472,11 +472,129 @@ Si está en FNBC.
 
 # 2.7
 
+## a
+
+- codigo postal → Localidad, Localidad → codigo postal
+  1. Inserción: requiere tener datos para los demás atributos.
+  2. borrado: borrar una persona que sea la unica con la localidad/codigo postal, borra dicho dato
+  3. actualizacion: se tiene el mismo par (loc1, cp1) para todas las personas con dicho par. Actualizar el valor de alguna de ellas implica actualizar muchas instancias.
+
+- (EscuelaVota, Localidad) → DirecciónEscuela , CP Escuela
+  1. Inserción: No se puede insertar una dirección de escuela sin tener una persona que este votando en dicha escuela.
+  2. Borrado: Si borro a todas las instancias que votan en una escuela, pierdo los datos de la dirección de dicha escuela
+  3. Actualización: Si mucha gente vota en la misma escuela, se tiene repetida el dato de la dirección de la escuela en cada instancia y se debe actualizar cada una.
+
+- (DNI, NombreHijo) → EdadHijo
+  1. Inserción: No podemos guardar un hijo sin tener los datos de los demás atributos, por ejemplo de que persona es hijo (razonable), en que escuela vota (no tan razonable). 
+  2. Borrado: Borrar a las personas que sean padres del hijo, borra el dato del hijo.
+  3. Actualización: Si 2 personas tiene el mismo hijo, entonces se tiene los datos de NombreHijo y edadHijo duplicados, haciendo que la actualización requiera cambiar 2 instancias. 
+
+## b
+
+Vemos de las DF todo lo que no tenga una determinación (solo aparece en lado izquierdo de una DF) y aquellos que no participan de ninguna DF:
+
+Localidad, EscuelaDondeVota, Dni, NombreHijo, Nombre, Dirección, LocalidadEscuela 
+
+## c
+
+Algoritmo de descomposición en 3FN SPI, SPDF:
+
+DF cubrimiento minimal: 
+$
+\{CodigoPostal → Localidad \\
+Localidad → CodigoPostal \\
+EscuelaDondeVota, Localidad → DirecciónEscuela \\
+EscuelaDondeVota, Localidad → CodigoPostalEscuela \\
+Dni, NombreHijo → EdadHijo \}
+$ 
+
+R1(CodigoPostal, Localidad)
+R2(EscuelaDondeVota, Localidad, DirecciónEscuela)
+R3(EscuelaDondeVota, Localidad, CodigoPostalEscuela)
+R4(Dni, NombreHijo, EdadHijo)
+R5(Localidad, EscuelaDondeVota, Dni, NombreHijo, Nombre, Dirección, LocalidadEscuela )
+
+## d
+
+Como aplique el algoritmo, entonces el resultado es SPI, SPDF.
+
+> nota: me parece que EscuelaDondeVota, Localidad → DirecciónEscuela y EscuelaDondeVota, Localidad → CodigoPostalEscuela deberian usar LocalidadEscuela en vez de Localidad y fue un typo del enunciado. En dicho caso solo se hace el reemplazo por ese atributo.
+
 # 2.9
+
+## a
+
+$
+T, A → D, E, Di, CA \\
+Di, T → A \\
+E → Ce \\
+$
+
+## b
+
+- Inserción: No puedo insertar director sin peliculas, estudio sin peliculas.
+- Actualización: Si estudio tiene multiples peliculas y se debe actualizar ese estudio, entonces se deben actualizar multiples instancias. Idem para director.
+- Borrado: Borrar todas las peliculas de un estudio podría borrar al estudio. Borrar todas las peliculas de un director podría borrar un director.
+
+## c
+
+R(T, A, D, CA, E, Ce, Di)
+
+Una clave: T, A
+Otra clave: T, Di
+
+La unica DF que viola FNBC es E → Ce. Descomponemos:
+
+R1(T, A, D, CA, E, Di) y R2(E, Ce)
+
 
 # 2.11
 
+## a
+
+Las claves son: (Empleado, Proyecto) y (Director, Empleado)
+
+Los 3 atributos no son multivaluados y pertenecen a alguna clave. Por lo que está en 1FN y 2FN.
+
+Como Empleado, Proyecto es superclave y Director es primo, entonces también está en 3FN.
+
+Como Director no es superclave, no está en FNBC.
+
+(No me preguntaron eso lol)
+
+- En $ρ1$ se pierde ambas.
+- En $ρ2$ se pierde la primera.
+- En $ρ3$ se pierde la primera.
+
+## b
+
+$ρ3$ Es SPI. R1 y R2 estan en FNBC en las 3 descomposiciones.
+
 # 2.12
+
+## a
+
+idOrden → Fecha, idCliente, ImporteTotal
+
+idOrden, nroItem → PrecioUnitario, Descuento
+
+clave en Orden: idOrden
+clave en OrdenItem: (idOrden, nroItem)
+
+- 1FN por atributos monovaluados
+- 2FN ya que todos los atributos no primos (Fecha, idCliente, ImporteTotal, precioUnitario, Descuento) dependen totalmetne de alguna clave.
+- 3FN porque ambas DF tienen su lado izquierdo como una superclave para su relación.
+- Y por el mismo motivo, está en FNBC.
+
+## b
+
+La junta natural daría: R(Descuento, PrecioUnitario, nroItem, idOrden, Fecha, idCliente, importeTotal)
+
+La clave sería:  (idOrden, nroItem)
+
+Las dependencias funcionales se mantienen. Luego tenemos Fecha que es parcialmente dependiente de una clave. Por lo tanto no se encuentra en 2FN (ni en 3FN ni FNBC). 
+
+Concluimos que el natural join produce una relación en 1FN.
 
 # 2.13
 
