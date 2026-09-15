@@ -57,4 +57,6 @@ $ρ_{invoicelineNoMaximos}(π_{R1}(σ_{R1.quantity < R2.quantity} (R1 \times R2)
 
 $ρ_{invoicelineMaximos}(invoiceline - invoicelineNoMaximos)$
 
-$ρ_{invoiceConInvoicelineMaximos}()$
+$ρ_{CustomersIdConInvoiceLinesMaximos}(π_{CustomerId}(invoice \bowtie invoicelineMaximos))$ (natural join)
+
+$ρ_{Resultado}(π_{FirstName}(CustomersIdConInvoiceLinesMaximos \bowtie customer))$ (Natural join)
