@@ -49,6 +49,7 @@ Resultado = ConAIgualesYBDistintos - ConMasDeDosBDistintos
 
 nombres de los clientes que tengan la factura (invoice) con el item (invoiceline) de mayor cantidad
 
+## En AR
 
 $ρ_{R1}invoiceline$
 $ρ_{R2}invoiceline$
@@ -60,3 +61,30 @@ $ρ_{invoicelineMaximos}(invoiceline - invoicelineNoMaximos)$
 $ρ_{CustomersIdConInvoiceLinesMaximos}(π_{CustomerId}(invoice \bowtie invoicelineMaximos))$ (natural join)
 
 $ρ_{Resultado}(π_{FirstName}(CustomersIdConInvoiceLinesMaximos \bowtie customer))$ (Natural join)
+
+## En CRT
+
+$$
+\{t / (\exists c, i, il) 
+    (i \in Invoice \wedge \\
+    il \in InvoiceLine \wedge \\
+    c \in customer \wedge \\ 
+    c.CustomerId = i.CustomerId \wedge \\
+    i.InvoiceId = il.InvoiceId \wedge \\
+    (\forall il')((il' \in InvoiceLine \wedge li' \neq il) \implies il'.Quantity \leq il.Quantity) \wedge\\
+    t.FirstName = c.FirstName) \}
+$$
+
+otra forma
+
+
+$$
+\{t / (\exists c, i, il) 
+    (i \in Invoice \wedge \\
+    il \in InvoiceLine \wedge \\
+    c \in customer \wedge \\ 
+    c.CustomerId = i.CustomerId \wedge \\
+    i.InvoiceId = il.InvoiceId \wedge \\
+    \neg(\exists il')((il' \in InvoiceLine \wedge il'.Quantity > il.Quantity) \wedge\\
+    t.FirstName = c.FirstName) \}
+$$
