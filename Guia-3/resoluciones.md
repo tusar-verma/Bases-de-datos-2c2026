@@ -88,3 +88,68 @@ $$
     \neg(\exists il')((il' \in InvoiceLine \wedge il'.Quantity > il.Quantity) \wedge\\
     t.FirstName = c.FirstName) \}
 $$
+
+# 2.9
+
+## b
+
+$ρ_{ItemsConPrecioHistoricoGuardado}(\pi_{idItem, nombre, precio actual, categor´ıaId}(Historia \bowtie Items))$
+
+$ρ_{Resultado}(\pi_{nombre}(Items - ItemsConPrecioHistoricoGuardado))$
+
+## c
+
+$$
+\{ t / (\exists i, h) (i \in items \wedge h \in historia \wedge \\
+    \neg(\exists i'\in items \wedge i'.precio\_actual > i.precio\_actual) \wedge \\
+    h.Idtem = i.idItem \wedge \\
+    \neg(\exists h' \in historia \wedge h'.idItem = i.IdItem \wedge h'.precio > h.precio) \\
+    t.mayor\_precio\_historico = h.precio \wedge \\
+    t.precio\_actual = i.precio\_actual \wedge \\
+    t.Nombre = i.Nombre
+)  \}
+$$
+
+# 2.10
+
+## a
+
+Verdadero
+
+## b
+
+Falso, faltan los apellidos
+
+## c
+
+Falso. Da los alumnos inscriptos en bases O algoritmos
+
+## d
+
+Falso. Estudiante no tiene atributo curso.
+
+## e
+
+Falso. El natural join entre las selecciones se hacen en 2 relaciones que tienen ambos atributos con el mismo nombre. Por lo tanto emparejaría tuplas con <LU, "Algoritmos"> y <LU, "bases de datos"> comparando $LU = LU \wedge$ "algoritmos" = "bases de datos". (Devuelve conjunto vacío siempre).
+
+
+# 2.11
+
+## a
+
+Falso. Falta $t.Nombre = e.Nombre$
+
+## b
+
+Verdadero.
+
+## c
+
+Verdadero
+
+## d
+
+Falso.
+
+Pide que para todo proyecto en el que trabaja el empleado debe existir un proyecto con el PID correspondiente y que sea de ventas.
+Es decir, todo proyecto del empleado debe ser del departamente de ventas.
