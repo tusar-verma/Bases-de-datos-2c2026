@@ -92,10 +92,145 @@ En el mundo real, las fallas de red son inevitables, por lo que **$P$ no es nego
 # 2
 
 ## 2.1
+
+La relación es N, M y no nos dicen si la cantidad de ambos es acotada o no, voy a asumir que no. En este caso, podemos hacer 2 conjuntos de documentos: uno para usuario y otro para grupo. Ambos guardan una lista con referencias a los otros documentos.
+Alternativas: 
+- incrustar dentro de un documento usuario una lista con los documentos a los grupos que pertenece
+- Idem pero incrustando usuarios en los documentos de los grupos
+
+La alternativa que se elija va depender de las consultas que se hagan:
+
+- Si se leen y actualizan por separado conviene hacer ambas referencias
+- Si se debe leer rápidamente los grupos de un usuario, se debe incrustar los grupos al usuario
+- Si se debe leer rápidamente los usuarios de un grupo, se debe incrustar los usuarios al grupo.
+- Si se deben leer ambas rápidamente , se podría hacer ambas incrustaciones pero se agrega el costo de mantenimiento de mantener la consistencia.
+- Si se debe actualizar rápidamente los usuarios de un grupo particular, conviene que ambos estén separados y el grupo guarde las referencias. O al revés si se necesita actualizar los grupos de un usuario.
+
+```json
+
+"Alternativa 1"
+Usuario: {"Password": ... ,"IdUsuario": ... , "Nombre": ... , "Grupos": [idGrupo1, ... idGrupoN] }
+Grupo: {"IdGrupo": ... , "Nombre": ... , "usuarios": [IdUsuario1, ... , IdUsuarioM] }
+
+
+"Alternativa 2"
+Usuario: {
+    "Password": ... ,
+    "IdUsuario": ... , 
+    "Nombre": ... , 
+    "Grupos": [
+        {"IdGrupo1": ... , "NombreGrupo1": ... }, ... 
+        {"IdGrupoM": ... , "NombreGrupoM": ... }
+    ] 
+}
+
+"Alternativa 3"
+Grupo: {
+    "IdGrupo": ... , 
+    "Nombre": ... , 
+    "usuarios": [
+        {"Password1": ... ,"IdUsuario1": ... , "NombreUsuario1": ... }, ... ,
+        {"PasswordM": ... ,"IdUsuarioM": ... , "NombreUsuarioM": ... }
+    ] 
+}
+
+```
+
+
 ## 2.2
+
+```json
+
+{
+    "idEditorial": "idEditorial1",
+    "nombre": "O’Reilly Media",
+    "fundada": 1980,
+    "ubicacion": "CA"
+}
+
+{
+    "titulo": "MongoDB: The Definitive Guide",
+    "autor": [ "Kristina Chodorow", "Mike Dirolf" ],
+    "fecha_pub": ISODate("2010-09-24"),
+    "paginas": 216,
+    "idioma": "English",
+    "editorial": "idEditorial1"
+}
+{
+    "titulo": "50 Tips and Tricks for MongoDB Developer",
+    "autor": "Kristina Chodorow",
+    "fecha_pub": ISODate("2011-05-06"),
+    "paginas": 68,
+    "idioma": "English",
+    "editorial": "idEditorial1"
+}
+```
+
 ## 2.3
+
+### a
+
+```SQL
+CREATE TABLE IF NOT EXISTES articulos_con_cita (
+  titulo text,
+  fecha text,
+  cita text
+PRIMARY KEY ((cita), titulo)
+);
+
+SELECT titulo , fecha FROM articulos_con_cita WHERE cita = <titulo dado>
+
+```
+
+### b
+
+```SQL
+CREATE TABLE IF NOT EXISTES autores_por_fecha(
+  nombre text,
+  apellido text,
+  titulo text,
+  fecha text,
+PRIMARY KEY ((fecha), nombre, apellido, titulo)
+);
+
+SELECT nombre, apellido FROM autores_por_fecha WHERE fecha = <fecha dada>
+```
+
 ## 2.4
+
+```xml
+<!--clave-->
+usuario:<id>:<fecha>:<hora>
+```
+
+y el valor corresponde a un objeto con todos los datos que se requiere guardar.
+
+Luego para poder consultar las fechas y horas que tiene disponible un usuario se debe guardar una lista con ellas: 
+
+```xml
+<!--clave-->
+usuario:<id>:partidas
+```
+
+con valor lista de fecha y horas ```[ "2026-10-12_21:00", "2026-10-12_22:30", ... ]```
+
 ## 2.5
+
+Criterios para diseñar bases de datos key value:
+- Agrupar atributos que siempre se leen o escriben juntos
+- Separar aquellos atributos grandes que se actualizan o leen de manera independiente, para no transferir datos pesados innecesariamente.
+
+Con esto en cuenta las claves son:
+
+```xml
+usuario:<email>:datos_personales
+usuario:<email>:claves_publicas
+usuario:<email>:imagen
+usuario:<email>:audio
+```
+
+Los primeros 2 podrían guardar un JSON con los datos o un hashmap campo: valor.
+
 ## 2.6
 ## 2.7
 ## 2.8
