@@ -232,6 +232,26 @@ usuario:<email>:audio
 Los primeros 2 podrían guardar un JSON con los datos o un hashmap campo: valor.
 
 ## 2.6
+
+### a
+
+```xml
+tarjeta:<idTarjeta>:roles
+tarjeta:<idTarjeta>:intentos
+
+puerta:<idPuerta>:roles_permitidos
+```
+Intentos es una lista de eventos `{idPuerta: ..., timestamp: ..., exitosos: <bool>}`
+roles_permitidos es una lista de los roles que pueden abrir la puerta
+
+Cuando una tarjeta se apoya en un lector de una puerta, se usa el id de la puerta para chequear sus roles permitidos y corroborar que la tarjeta los tenga.
+
+Con este modelo, cada escaneo de tarjeta hace una sola lectura para obtener los roles permitidos por la puerta y luego solo se debe recorrer la lista de roles que tiene la tarjeta para corroborar que la intersección no es vacía.
+
+### b
+
+
+
 ## 2.7
 ## 2.8
 ## 2.9
